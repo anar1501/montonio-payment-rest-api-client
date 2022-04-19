@@ -1,0 +1,13 @@
+spring:
+    profiles:
+        active: test
+
+payment:
+    status:
+        success: 'Payment process is success!'
+        failed: 'Payment process is failed!'
+
+server:
+    servlet:
+        context-path: /montonio/payment
+
