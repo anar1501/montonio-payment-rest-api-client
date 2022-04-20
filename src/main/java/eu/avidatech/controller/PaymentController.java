@@ -30,7 +30,7 @@ public class PaymentController {
     )
     @PostMapping
     public ResponseEntity<String> getRedirectUrl(@ApiParam(
-            "To obtaing Redirect Url using This Web Service"
+            "To obtaining Redirect Url using This Web Service"
     ) @RequestBody Payment payment) {
         logger.info(parseString(payment));
         return ResponseEntity.ok(paymentService.getRedirectUrl(payment));
@@ -58,6 +58,33 @@ public class PaymentController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "payment-token")
     public ResponseEntity<String> showPaymentToken() {
         return ResponseEntity.ok(paymentService.getPaymentTokenFromTheUrl());
+    }
+
+    @ApiOperation(value = "Obtaining Return Url")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "Successful code"),
+                    @ApiResponse(code = 500, message = "Internal Server code")
+            }
+    )
+    @GetMapping(value = "redirect-return-merchant")
+    public ResponseEntity<String> getRedirectReturnUrl() {
+        return ResponseEntity.ok(paymentService.getRedirectReturnUrl());
+    }
+
+
+    @ApiOperation(value = "Validate Payment Order")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "Successful code"),
+                    @ApiResponse(code = 400, message = "Bad Request")
+            }
+    )
+    @GetMapping(value = "validate-payment-token")
+    public ResponseEntity<String> validatePaymentOrder(@ApiParam(
+            "To Validate Payment-Order paste the token,that using This Web Service"
+    ) @RequestParam(value = "payment-token") String paymentToken) {
+        return ResponseEntity.ok(paymentService.validatePayment(paymentToken));
     }
 
 }

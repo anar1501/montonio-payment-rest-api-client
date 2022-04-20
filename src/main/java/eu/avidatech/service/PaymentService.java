@@ -8,4 +8,6 @@ public interface PaymentService {
     String getRedirectUrl(Payment payload);
     BankList findAllAvailableBank();
     String getPaymentTokenFromTheUrl();
+    String getRedirectReturnUrl();
+    String validatePayment(String token);
 }

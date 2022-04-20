@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.6'
+    id 'org.springframework.boot' version '2.5.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -31,10 +31,15 @@ dependencies {
     //log4j2
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     //swagger
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
+//    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+//    implementation 'io.springfox:springfox-swagger2:2.9.2'
     // validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+    //Swagger v2
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+
 }
 
 tasks.named('test') {

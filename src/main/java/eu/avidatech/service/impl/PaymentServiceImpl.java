@@ -28,9 +28,11 @@ public class PaymentServiceImpl implements PaymentService {
     private final ApplicationConfig configuration;
     private final JwtUtil jwtUtil;
     private final Logger logger;
+    private Payment payment = null;
 
     @Override
     public String getRedirectUrl(Payment payment) {
+        this.payment = payment;
         logger.info(parseString(payment));
         try {
             if (!payment.getCurrency().equals("USD") && !payment.getCurrency().equals("EUR")) {
@@ -54,6 +56,19 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public String getPaymentTokenFromTheUrl() {
         return restClient.getForObject(urlConfiguration.getBankListUrl(), new HttpEntity<>(addHeader(configuration.getHeaderKey(), "Bearer " + jwtUtil.generateToken(configuration.getAccesskey()))), String.class).getBody();
+    }
+
+    @Override
+    public String getRedirectReturnUrl() {
+        return configuration.getMerchantReturnUrl() + jwtUtil.generateToken(payment);
+    }
+
+    @Override
+    public String validatePayment(String token) {
+        if (!jwtUtil.validateJwtToken(getRedirectReturnUrl().substring(getRedirectReturnUrl().lastIndexOf("=") + 1))) {
+            return configuration.getInvalidPayment();
+        }
+        return configuration.getSuccessPayment();
     }
 
 }

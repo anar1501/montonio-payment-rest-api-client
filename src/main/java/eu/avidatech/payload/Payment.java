@@ -18,4 +18,8 @@ public class Payment {
     @JsonProperty("checkout_email")
     @ApiModelProperty(example = "test-customer@montonio.com", notes = "checkoutemail of payment", required = true, position = 3)
     private String checkoutEmail;
+
+    @JsonProperty("checkout_first_name")
+    @ApiModelProperty(example = "your-checkout-first-name", notes = "checkoutFirstname of payment", required = true, position = 4)
+    private String checkoutFirstname;
 }

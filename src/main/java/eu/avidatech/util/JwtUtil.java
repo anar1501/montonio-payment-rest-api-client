@@ -20,7 +20,6 @@ public class JwtUtil {
 
     private final ApplicationConfig applicationConfig;
 
-    private final Key key = new SecretKeySpec(applicationConfig.getSecretkey().getBytes(), "AES");
 
     private static final Logger LOG = LogManager.getLogger(JwtUtil.class);
 
@@ -33,6 +32,7 @@ public class JwtUtil {
         payload.put("merchant_return_url", applicationConfig.getMerchantReturnUrl());
         payload.put("merchant_notification_url", applicationConfig.getMerchantNotificationUrl());
         payload.put("checkout_email", payment.getCheckoutEmail());
+        payload.put("checkout_first_name", payment.getCheckoutFirstname());
         return payload;
     }
 
@@ -59,6 +59,7 @@ public class JwtUtil {
     }
 
     public boolean validateJwtToken(String authToken) {
+        Key key = new SecretKeySpec(applicationConfig.getSecretkey().getBytes(), "AES");
         try {
             Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
             return true;
