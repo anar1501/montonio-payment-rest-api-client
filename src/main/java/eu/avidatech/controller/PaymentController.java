@@ -81,10 +81,8 @@ public class PaymentController {
             }
     )
     @GetMapping(value = "validate-payment-token")
-    public ResponseEntity<String> validatePaymentOrder(@ApiParam(
-            "To Validate Payment-Order paste the token,that using This Web Service"
-    ) @RequestParam(value = "payment-token") String paymentToken) {
-        return ResponseEntity.ok(paymentService.validatePayment(paymentToken));
+    public ResponseEntity<String> validatePaymentOrder() {
+        return ResponseEntity.ok(paymentService.validatePayment());
     }
 
 }

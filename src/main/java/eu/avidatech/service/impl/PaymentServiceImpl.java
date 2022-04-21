@@ -64,7 +64,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public String validatePayment(String token) {
+    public String validatePayment() {
         if (!jwtUtil.validateJwtToken(getRedirectReturnUrl().substring(getRedirectReturnUrl().lastIndexOf("=") + 1))) {
             return configuration.getInvalidPayment();
         }

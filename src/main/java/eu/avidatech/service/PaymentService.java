@@ -9,5 +9,5 @@ public interface PaymentService {
     BankList findAllAvailableBank();
     String getPaymentTokenFromTheUrl();
     String getRedirectReturnUrl();
-    String validatePayment(String token);
+    String validatePayment();
 }
