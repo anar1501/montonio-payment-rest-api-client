@@ -7,6 +7,7 @@ import eu.avidatech.config.URLConfiguration;
 import eu.avidatech.constant.RegexConstant;
 import eu.avidatech.exception.WrongFormatException;
 import eu.avidatech.payload.BankList;
+import eu.avidatech.payload.Decoded;
 import eu.avidatech.payload.Payment;
 import eu.avidatech.service.PaymentService;
 import eu.avidatech.util.JwtUtil;
@@ -14,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static eu.avidatech.client.HeadersHelper.addHeader;
 import static eu.avidatech.enums.MessageCase.*;
@@ -49,6 +52,22 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public String validatePayment(String paymentToken) {
+        Optional<Decoded> decoded = jwtUtil.validateJwtTokenV2(paymentToken.substring(paymentToken.lastIndexOf("=") + 1));
+        if (decoded.isPresent()) {
+            if (
+                    decoded.get().getAccessKey().equals(configuration.getAccesskey()) &&
+                            decoded.get().getMerchantReference().equals(payment.getMerchantReference()) &&
+                            decoded.get().getStatus().equals(FINALIZED.getMessage())
+            ) {
+                return configuration.getSuccessPayment() + decoded.get().getMerchantReference();
+            }
+            return configuration.getInvalidPayment() + decoded.get().getMerchantReference();
+        }
+        return Optional.empty().toString();
+    }
+
+    @Override
     public BankList findAllAvailableBank() {
         return restClient.getForObject(urlConfiguration.getBankListUrl(), new HttpEntity<>(addHeader(configuration.getHeaderKey(), "Bearer " + jwtUtil.generateToken(configuration.getAccesskey()))), BankList.class).getBody();
     }
@@ -58,18 +77,6 @@ public class PaymentServiceImpl implements PaymentService {
         return restClient.getForObject(urlConfiguration.getBankListUrl(), new HttpEntity<>(addHeader(configuration.getHeaderKey(), "Bearer " + jwtUtil.generateToken(configuration.getAccesskey()))), String.class).getBody();
     }
 
-    @Override
-    public String getRedirectReturnUrl() {
-        return configuration.getMerchantReturnUrl() + jwtUtil.generateToken(payment);
-    }
-
-    @Override
-    public String validatePayment() {
-        if (!jwtUtil.validateJwtToken(getRedirectReturnUrl().substring(getRedirectReturnUrl().lastIndexOf("=") + 1))) {
-            return configuration.getInvalidPayment();
-        }
-        return configuration.getSuccessPayment();
-    }
 
 }
 

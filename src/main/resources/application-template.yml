@@ -1,8 +1,6 @@
 montonio:
-#    secret-key: {type here secret-key which used to montonio payment gateway}
-#    access-key: {type here acess-key which used to montonio payment gateway}
-    merchant_return_url: https://montonio.com/orders/27731773/thank_you?payment_token=
-    merchant_notification_url: https://montonio.com/orders/payment_webhook?payment_token=
+    #    secret-key: {type here secret-key which used to montonio payment gateway}
+    #    access-key: {type here acess-key which used to montonio payment gateway}
     payment-url: https://sandbox-payments.montonio.com?payment_token=
     bank-list: https://api.payments.montonio.com/pis/v2/merchants/aspsps
     payment-details: https://api.payments.montonio.com/pis/v2/merchants/payments

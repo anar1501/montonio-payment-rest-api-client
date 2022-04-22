@@ -23,10 +23,6 @@ public class ApplicationConfig {
     private String secretkey;
     @Value("${montonio.access-key}")
     private String accesskey;
-    @Value("${montonio.merchant_return_url}")
-    private String merchantReturnUrl;
-    @Value("${montonio.merchant_notification_url}")
-    private String merchantNotificationUrl;
     @Value("${payment.status.success}")
     private String successPayment;
     @Value("${payment.status.failed}")

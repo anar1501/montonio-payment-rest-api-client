@@ -4,10 +4,5 @@ spring:
 
 payment:
     status:
-        success: 'Payment process is success!'
-        failed: 'Payment process is failed!'
-
-server:
-    servlet:
-        context-path: /montonio/payment
-
+        success: 'Payment process is success for order '
+        failed: 'Payment process is failed for order '
