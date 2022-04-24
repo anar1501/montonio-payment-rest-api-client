@@ -9,4 +9,5 @@ public interface PaymentService {
     BankList findAllAvailableBank();
     String getPaymentTokenFromTheUrl();
     String validatePayment(String paymentToken);
+    String getWebhookNotificationUrl(String paymentToken);
 }

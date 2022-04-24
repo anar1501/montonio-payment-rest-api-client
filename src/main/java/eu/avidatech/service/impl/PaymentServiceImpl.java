@@ -68,6 +68,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public String getWebhookNotificationUrl(String paymentToken) {
+        return validatePayment(paymentToken);
+    }
+
+    @Override
     public BankList findAllAvailableBank() {
         return restClient.getForObject(urlConfiguration.getBankListUrl(), new HttpEntity<>(addHeader(configuration.getHeaderKey(), "Bearer " + jwtUtil.generateToken(configuration.getAccesskey()))), BankList.class).getBody();
     }

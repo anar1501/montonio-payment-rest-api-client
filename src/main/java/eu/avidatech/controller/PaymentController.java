@@ -7,6 +7,7 @@ import eu.avidatech.service.PaymentService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,18 @@ public class PaymentController {
         return paymentService.validatePayment(paymentToken);
     }
 
+
+    @ApiOperation(value = "Webhook Notification")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "Successful code"),
+                    @ApiResponse(code = 500, message = "Internal Server Error")
+            }
+    )
+    @PostMapping(path = "webhook-notification")
+    public String getWebhookNotificationUrl(@RequestBody String paymentToken) {
+        return paymentService.getWebhookNotificationUrl(paymentToken);
+    }
 
     @ApiOperation(value = "Displaying the List of Available Banks")
     @ApiResponses(
